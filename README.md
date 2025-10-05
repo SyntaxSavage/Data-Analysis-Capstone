@@ -99,6 +99,3 @@ plt.show()
 - Low-fat products generate 35% higher sales than regular variants
 - Tier-3 cities show 20% better sales/rating ratio than metro locations
 - Supermarket outlets outperform grocery stores by 40% in average sales
-
-## 📄 License
-MIT License - Free for academic and research use
