@@ -2,7 +2,7 @@
 End-to-end data analysis project using Excel, SQL, Python, and Power BI.
 # Blinkit Sales Analysis - Data Analysis Capstone Project
 
-![Project Cover](https://via.placeholder.com/800x200.png?text=Blinkit+Sales+Analysis+Capstone+Project)
+
 
 Comprehensive analysis of Blinkit's retail performance using Excel, SQL, Python, and Power BI to uncover insights about sales patterns, customer behavior, and outlet efficiency.
 
@@ -54,24 +54,32 @@ Blinkit-Analysis/
 
 ### SQL Snippet (Total Sales by Fat Content)
 ```sql
-SELECT 
-  FatContent,
-  SUM(Sales) AS TotalSales,
-  AVG(Sales) AS AvgSales,
-  COUNT(DISTINCT ItemID) AS UniqueItems,
-  AVG(Rating) AS AvgRating
-FROM SalesData
-GROUP BY FatContent;
+SELECT [Item Fat Content], 
+	CAST(SUM(Sales)/1000 AS DECIMAL(10,2)) AS totalSales,
+	CAST(AVG(Sales) AS DECIMAL(10,2)) AS avgSales,
+	COUNT(*) AS noofitems,
+	CAST(AVG(Rating) AS DECIMAL(10,2)) AS agvRating
+FROM dbo.[BlinkIT Grocery Data]
+GROUP BY [Item Fat Content]
+ORDER BY totalSales DESC
 ```
 
-### Python Visualization (Stacked Column Chart)
+### Python Visualization (Bar Graph)
 ```python
-import matplotlib.pyplot as plt
-import seaborn as sns
+sales_by_type = data.groupby('Item Type')['Sales'].sum().sort_values(ascending=False)
 
-plt.figure(figsize=(12,6))
-sns.barplot(x='OutletType', y='TotalSales', hue='FatContent', data=df)
-plt.title('Sales Distribution by Outlet Type & Fat Content')
+plt.figure(figsize=(10,6))
+bars = plt.bar(sales_by_type.index, sales_by_type.values)
+
+plt.xticks(rotation=90)
+plt.xlabel('Item Type')
+plt.ylabel('Total Sales')
+plt.title('Total Sales by Item Type')
+
+for bar in bars:
+    plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height(), f'${bar.get_height():,.0f}', ha='center', va='bottom', fontsize=8)
+
+plt.tight_layout()
 plt.show()
 ```
 
